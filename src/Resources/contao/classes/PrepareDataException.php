@@ -62,7 +62,7 @@ class PrepareDataException
             foreach ($titleFields as $field)
             {
 
-                $ct = deserialize($db[$field]);
+                $ct = deserialize($db[$field] ?? '');
 
                 // check if value is serialize
                 if (is_array($ct) && !empty($ct)) {
@@ -70,7 +70,7 @@ class PrepareDataException
                     $db[$field] = $meta;
                 }
 
-                if( $db[$field] && $db[$field] != '' && $field != 'type')
+                if(isset($db[$field]) && $db[$field] && $db[$field] != '' && $field != 'type')
                 {
                     return $db[$field].' ('.$db['type'].')';
                 }

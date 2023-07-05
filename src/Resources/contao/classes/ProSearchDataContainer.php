@@ -56,7 +56,7 @@ class ProSearchDataContainer extends DataContainer
         //$pid = $arrRow['pid'] ? '&amp;pid='.$arrRow['pid'] : '';
         $table = $arrRow['dca'] ? '&amp;table='.$arrRow['dca'] : '';
 
-        if( $operations['editheader'] || $operations['edit'] )
+        if((isset($operations['editheader']) && $operations['editheader']) || (isset($operations['edit']) && $operations['edit']))
         {
             $href = 'act=edit';
             $queryStr = $href.$id.$table;
@@ -112,7 +112,7 @@ class ProSearchDataContainer extends DataContainer
         }
 		
 		// go to ietm
-        if( $operations['editheader'] || $operations['edit'] )
+        if((isset($operations['editheader']) && $operations['editheader']) || (isset($operations['edit']) && $operations['edit']))
         {
 
             $href = 'act=edit';
@@ -183,7 +183,7 @@ class ProSearchDataContainer extends DataContainer
             $href = 'act=show';
             $icon = 'show.gif';
             $arrRow['dynTable'] = null; // reset dyntable if not needed
-            $attributes = ($operations['show']['attributes'] != '') ? ' ' . ltrim(sprintf($operations['show']['attributes'], $id, $id)) : '';
+            $attributes = (isset($operations['show']['attributes']) && $operations['show']['attributes'] != '') ? ' ' . ltrim(sprintf($operations['show']['attributes'], $id, $id)) : '';
             $queryStr = $href.$id.$table.'&amp;popup=1';
             $return .= '<a href="'.$this->addToSearchUrl($arrRow, $queryStr).'" tabindex="1" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", sprintf($arrRow['title'], $arrRow['docId']))).'\',\'url\':this.href});return false"'.$attributes.'>'.Image::getHtml($icon).'</a> ';
         }

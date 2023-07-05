@@ -27,13 +27,13 @@ if (TL_MODE == 'BE') {
     $strIcon = 'prosearch_v3icon';
     $strItemCssClass = 'header_prosearch';
     $strContainerCssClass =  'header_prosearch_container';
-    $strTitle = $GLOBALS['TL_LANG']['MSC']['prosearchTitle'];
+    $strTitle = &$GLOBALS['TL_LANG']['MSC']['prosearchTitle'];
 
     if ( version_compare( VERSION, '4.2', '>=' ) )
     {
         $strIcon = 'prosearch_v4icon';
     }
-    
+
     $strButton = sprintf( $strButton,
 
         $strId,

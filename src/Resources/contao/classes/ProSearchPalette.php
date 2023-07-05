@@ -33,7 +33,7 @@ class ProSearchPalette extends ProSearch
 		$activeTables = deserialize( Config::get('searchIndexModules') );
         $coreModulesArr = $activeTables ? $activeTables : array();
 
-        if (in_array($strName, $coreModulesArr) && $GLOBALS['TL_DCA'][$strName]) {
+        if (in_array($strName, $coreModulesArr) && isset($GLOBALS['TL_DCA'][$strName])) {
 
 
             if (!$this->createColsIfNotExist($strName)) {

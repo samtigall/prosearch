@@ -4,7 +4,7 @@ $GLOBALS['TL_DCA']['tl_fmodules']['palettes']['default'] = str_replace
 (
     'tablename',
     'tablename,ps_shortcut',
-    $GLOBALS['TL_DCA']['tl_fmodules']['palettes']['default']
+    $GLOBALS['TL_DCA']['tl_fmodules']['palettes']['default'] ?? ''
 );
 
   
