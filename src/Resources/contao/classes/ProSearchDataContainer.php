@@ -54,7 +54,7 @@ class ProSearchDataContainer extends DataContainer
         //$pid = $arrRow['pid'] ? '&amp;pid='.$arrRow['pid'] : '';
         $table = $arrRow['dca'] ? '&amp;table=' . $arrRow['dca'] : '';
 
-        if (array_key_exists('editheader', $operations) && $operations['editheader'] || $operations['edit']) {
+        if ((isset($operations['editheader']) && $operations['editheader']) || (isset($operations['edit']) && $operations['edit'])) {
             $href = 'act=edit';
             $queryStr = $href . $id . $table;
 
@@ -112,7 +112,7 @@ class ProSearchDataContainer extends DataContainer
         }
 
         // go to ietm
-        if (array_key_exists('editheader', $operations) && $operations['editheader'] || $operations['edit']) {
+        if ((isset($operations['editheader']) && $operations['editheader']) || (isset($operations['edit']) && $operations['edit'])) {
             $href = 'act=edit';
             $icon = 'header.gif';
             $ptable = $table;

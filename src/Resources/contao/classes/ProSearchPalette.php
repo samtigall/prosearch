@@ -1,9 +1,9 @@
 <?php
 
 namespace ProSearch;
- 
-use Contao\Input;
+
 use Contao\Config;
+use Contao\Input;
 
 /**
  * Class ProSearchPalette
@@ -29,13 +29,10 @@ class ProSearchPalette extends ProSearch
      */
     public function insertProSearchLegend($strName)
     {
-		
-		$activeTables = deserialize( Config::get('searchIndexModules') );
+        $activeTables = deserialize(Config::get('searchIndexModules'));
         $coreModulesArr = $activeTables ? $activeTables : array();
 
-        if (in_array($strName, $coreModulesArr) && $GLOBALS['TL_DCA'][$strName]) {
-
-
+        if (in_array($strName, $coreModulesArr) && isset($GLOBALS['TL_DCA'][$strName])) {
             if (!$this->createColsIfNotExist($strName)) {
                 return null;
             }
@@ -45,10 +42,9 @@ class ProSearchPalette extends ProSearch
             static::loadLanguageFile('tl_prosearch_data');
 
             // legend label setzen
-            $GLOBALS['TL_LANG'][$strName]['prosearch_legend'] = $GLOBALS['TL_LANG']['tl_prosearch_data']['prosearch_legend'];
+            $GLOBALS['TL_LANG'][$strName]['prosearch_legend'] = isset($GLOBALS['TL_LANG']['tl_prosearch_data']['prosearch_legend'])? $GLOBALS['TL_LANG']['tl_prosearch_data']['prosearch_legend'] : '';
 
             foreach ($palletesArr as $k => $pallete) {
-
                 if ($k == '__selector__') {
                     continue;
                 }
@@ -56,11 +52,14 @@ class ProSearchPalette extends ProSearch
                 $palleteArr = explode(';', $pallete);
 
                 if (count($palleteArr) == 1) {
-                    $GLOBALS['TL_DCA'][$strName]['palettes'][$k] .= ';'.static::palettesStr();
+                    $GLOBALS['TL_DCA'][$strName]['palettes'][$k] .= ';' . static::palettesStr();
                 } else {
-                    $GLOBALS['TL_DCA'][$strName]['palettes'][$k] = str_replace($palleteArr[0], $palleteArr[0] . ';' . static::palettesStr(), $GLOBALS['TL_DCA'][$strName]['palettes'][$k]);
+                    $GLOBALS['TL_DCA'][$strName]['palettes'][$k] = str_replace(
+                        $palleteArr[0],
+                        $palleteArr[0] . ';' . static::palettesStr(),
+                        $GLOBALS['TL_DCA'][$strName]['palettes'][$k]
+                    );
                 }
-
             }
 
             $GLOBALS['TL_DCA'][$strName]['config']['onload_callback'][] = array('ProSearchPalette', 'getAvailabletags');
@@ -68,7 +67,6 @@ class ProSearchPalette extends ProSearch
             foreach ($this->getFields() as $field => $method) {
                 $GLOBALS['TL_DCA'][$strName]['fields'][$field] = call_user_func(array('ProSearchPalette', $method));
             }
-
         }
     }
 
@@ -158,9 +156,7 @@ class ProSearchPalette extends ProSearch
      */
     public function getAvailabletags($dc = null)
     {
-
-        if(!$dc)
-        {
+        if (!$dc) {
             return null;
         }
 
@@ -176,7 +172,6 @@ class ProSearchPalette extends ProSearch
 
         //set
         $GLOBALS['TL_DCA'][$table]['fields']['ps_tags']['eval']['options'] = $options;
-
     }
 
 
@@ -187,19 +182,15 @@ class ProSearchPalette extends ProSearch
     public function createColsIfNotExist($strName)
     {
         foreach ($this->getFields() as $k => $v) {
-	        
-	        
-            if ( !$this->Database->fieldExists($k, $strName) && Input::get('do') != 'repository_manager' && Input::get('do') != '' ) {
-            	
+            if (!$this->Database->fieldExists($k, $strName) && Input::get('do') != 'repository_manager' && Input::get(
+                    'do'
+                ) != '') {
                 $field = call_user_func(array('ProSearchPalette', $v));
                 $this->createCol($strName, $k, $field);
-            
             }
-        
         }
 
         return true;
-
     }
 
     /**
